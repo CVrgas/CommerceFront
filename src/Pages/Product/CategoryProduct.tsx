@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -26,26 +26,26 @@ function CategoryProduct() {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {Products.map((product) => (
-          <a
-            href={
+          <Link
+            to={
               "/menu/" +
               category +
               "/" +
               product.name.replace(" ", "_").toLowerCase()
             }
             key={product.name}
-            className="flex items-center flex-col justify-start gap-2 hover:bg-gray-50 p-2"
+            className="flex items-center flex-row lg:flex-col justify-start gap-2 hover:bg-gray-50 p-2"
           >
-            <div className="w-36 h-36 rounded-full bg-gray-300 overflow-hidden flex items-center justify-center">
+            <div className="w-28 h-28 rounded-full bg-gray-300 overflow-hidden">
               <img
                 src="https://via.placeholder.com/300x300"
                 alt={"Not found"}
               />
             </div>
             <span className="my-auto font-bold text-xl">{product.name}</span>
-          </a>
+          </Link>
         ))}
       </div>
     </>
