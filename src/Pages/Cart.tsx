@@ -20,6 +20,7 @@ function Cart() {
       setTimeout(() => {
         setProducts([]);
         setIsLoading(false);
+        setState({ TotalItems: 0, TotalPrice: 0.0 });
       }, 400);
     };
 
@@ -27,7 +28,7 @@ function Cart() {
   }, []);
 
   return (
-    <div className="cart flex flex-wrap gap-2 mt-4 justify-center">
+    <div className="cart flex flex-wrap gap-2 mt-4 justify-center flex-grow mx-16">
       <div className="min-h-10 col-span-2 flex-1">
         <form className="flex flex-col gap-4 px-4">
           {isLoading && (
@@ -51,6 +52,7 @@ function Cart() {
           </p>
           <button
             type="button"
+            disabled={isLoading || products.length === 0}
             className="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
             Checkout

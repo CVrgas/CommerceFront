@@ -4,7 +4,7 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import NotFound from "./Pages/NotFound";
 import Order from "./Pages/Order";
-import ProductIndex from "./Pages/ProductIndex";
+//import ProductIndex from "./Pages/ProductIndex";
 import Signup from "./Pages/Signin";
 import TestWrapper from "./Components/TestWrapper";
 import { RouteItem } from "./Types/Route";
@@ -68,14 +68,14 @@ const routes: RouteItem[] = [
     children: [],
     access: [1, 2, 3],
   },
-  {
-    path: "/products/:page?",
-    name: "Products",
-    icon: "",
-    component: ProductIndex,
-    children: [],
-    access: [1, 2, 3],
-  },
+  // {
+  //   path: "/products/:page?",
+  //   name: "Products",
+  //   icon: "",
+  //   component: ProductIndex,
+  //   children: [],
+  //   access: [1, 2, 3],
+  // },
   {
     path: "/order",
     name: "Order",
