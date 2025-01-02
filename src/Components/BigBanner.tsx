@@ -1,23 +1,12 @@
 function BigBanner(props: BigBanner) {
-  const { link, style } = props;
+  const { style } = props;
   const containerClass =
-    " w-full lg:h-[400px] flex flex-col lg:flex-row p-5 overflow-hidden";
-
-  if (link === undefined) {
-    return (
-      <div className={style.backgroundColor + containerClass}>
-        <BigBannerBody {...props} />
-      </div>
-    );
-  }
+    " w-full lg:h-[400px] flex flex-col lg:flex-row p-5 overflow-hidden rounded-sm";
 
   return (
-    <a
-      href={link ? link : "#"}
-      className={style.backgroundColor + containerClass}
-    >
+    <div className={style.backgroundColor + containerClass}>
       <BigBannerBody {...props} />
-    </a>
+    </div>
   );
 }
 
@@ -35,7 +24,16 @@ function BigBannerBody(prop: BigBanner) {
           {title}
         </h1>
         <p className={bodyColor + " text-xl lg:w-2/3 mb-4"}>{body}</p>
-        <button className="btn">Order now</button>
+        <div className="my-4">
+          {prop.link && (
+            <a
+              href={prop.link}
+              className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            >
+              Order now
+            </a>
+          )}
+        </div>
       </div>
       <div className="flex-2 overflow-hidden">
         {imageUrl && (

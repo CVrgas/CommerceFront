@@ -14,15 +14,17 @@ function Home() {
       title: "Refresh with Iced Green Tea",
       body: "Cool down with the invigorating taste of our Iced Green Tea. A perfect blend of premium green tea leaves, lightly sweetened and served over ice for a refreshing pick-me-up. Light, crisp, and oh-so-refreshing!",
       style: BannerStyle.dark(),
+      imageUrl: "https://placehold.co/800x600",
     },
     {
       title: "Latte Love, Almond-Style",
       body: "Discover a dairy-free delight with our Iced AlmondMilk Latte. Creamy almond milk paired with smooth espresso, served over ice for a guilt-free, plant-based treat. Deliciously satisfying!",
       style: BannerStyle.lightDark(),
+      link: "/menu/Hot_Coffees/iced_almondmilk_latte",
     },
   ];
   return (
-    <div className="flex flex-col gap-2 flex-grow mx-16">
+    <div className="flex flex-col gap-2 flex-grow mx-24">
       {banners.map((banner) => (
         <BigBanner key={banner.title} {...banner} />
       ))}
