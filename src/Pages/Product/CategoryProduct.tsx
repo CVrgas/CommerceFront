@@ -22,7 +22,7 @@ function CategoryProduct() {
       }
     };
     fetchProducts();
-  }, []);
+  }, [category]);
 
   return (
     <>

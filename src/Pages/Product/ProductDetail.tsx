@@ -34,7 +34,7 @@ function ProductDetail() {
       }
     };
     FetchProduct();
-  }, []);
+  }, [product]);
 
   const milkOptions = ["Whole Milk", "Skim Milk", "Almond Milk", "Oat Milk"];
   const extraOptions = [
