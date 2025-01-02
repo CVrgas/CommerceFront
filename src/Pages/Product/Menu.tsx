@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 function Menu() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -38,8 +38,18 @@ function Menu() {
   }
 
   return (
-    <div className="h-full bg-white py-4 px-8">
-      <h1 className="font-bold text-5xl">Menu</h1>
+    <div className="h-full bg-white py-4 px-8 flex-grow">
+      <div className="flex items-center justify-between">
+        <h1 className="font-bold text-5xl">Menu</h1>
+        {!isMenuRoot && (
+          <Link
+            to={"/menu"}
+            className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          >
+            go back
+          </Link>
+        )}
+      </div>
       <hr className="my-2 border border-t-0 border-gray-400" />
       {isMenuRoot ? (
         <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4">
