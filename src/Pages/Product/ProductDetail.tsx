@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import userStore from "../../App/Store/user.ts";
 
 function ProductDetail() {
   const [milkOption, setMilkOption] = useState<string>("Whole Milk");
@@ -20,6 +21,8 @@ function ProductDetail() {
     ratingCount: 0,
     ratingSum: 0,
   });
+
+  const user = userStore((state) => state.user);
 
   useEffect(() => {
     const FetchProduct = async () => {
@@ -57,6 +60,7 @@ function ProductDetail() {
     if (!isUserLoggedIn()) {
       NotifyNotAuthUser();
     }
+    addToCart(productData.id, 1);
   };
 
   const handleBuyNow = () => {
@@ -66,7 +70,7 @@ function ProductDetail() {
   };
 
   const isUserLoggedIn = (): boolean => {
-    return false;
+    return user.isAuthenticated != "NOTAUTH";
   };
 
   const NotifyNotAuthUser = () => {
@@ -95,6 +99,26 @@ function ProductDetail() {
           console.log("El usuario canceló el inicio de sesión.");
         }
       });
+  };
+
+  const addToCart = async (productId: number, quantity: number) => {
+    try {
+      const token = user.accessToken;
+
+      const response = await axios.post(
+        `https://localhost:44309/api/Cart/AddItemToCart?productId=${productId}&quantity=${quantity}`,
+        {}, // Si no hay datos en el cuerpo, este objeto vacío es opcional
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
