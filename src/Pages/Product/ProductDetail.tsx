@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function ProductDetail() {
   const [milkOption, setMilkOption] = useState<string>("Whole Milk");
@@ -53,15 +54,47 @@ function ProductDetail() {
   };
 
   const handleAddToCart = () => {
-    alert(
-      `Added to cart: ${productData.name} with ${milkOption} and ${extras.join(", ")}`,
-    );
+    if (!isUserLoggedIn()) {
+      NotifyNotAuthUser();
+    }
   };
 
   const handleBuyNow = () => {
-    alert(
-      `Purchased: ${productData.name} with ${milkOption} and ${extras.join(", ")}`,
-    );
+    if (!isUserLoggedIn()) {
+      NotifyNotAuthUser();
+    }
+  };
+
+  const isUserLoggedIn = (): boolean => {
+    return false;
+  };
+
+  const NotifyNotAuthUser = () => {
+    const swalWithTailwindButtons = Swal.mixin({
+      customClass: {
+        confirmButton:
+          "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800",
+        cancelButton:
+          "text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700",
+      },
+    });
+    swalWithTailwindButtons
+      .fire({
+        title: "Sign in to continue",
+        text: "You need to be registered to add products to the cart. Would you like to sign in now?",
+        icon: "info",
+        showCloseButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Sign in",
+        cancelButtonText: "Cancel",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/auth/login";
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          console.log("El usuario canceló el inicio de sesión.");
+        }
+      });
   };
 
   return (
@@ -104,7 +137,7 @@ function ProductDetail() {
             </label>
             <div className="flex flex-wrap gap-3">
               {extraOptions.map((extra) => (
-                <div className="flex items-center mb-4">
+                <div className="flex items-center mb-4" key={extra}>
                   <input
                     id="default-checkbox"
                     type="checkbox"
