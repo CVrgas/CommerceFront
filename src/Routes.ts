@@ -11,6 +11,7 @@ import { RouteItem } from "./Types/Route";
 import Menu from "./Pages/Product/Menu.tsx";
 import CategoryProduct from "./Pages/Product/CategoryProduct.tsx";
 import ProductDetail from "./Pages/Product/ProductDetail.tsx";
+import { Role } from "./Types/Role.ts";
 
 const routes: RouteItem[] = [
   {
@@ -138,9 +139,10 @@ export function GetRoutes(
 
     const isBaseMatched = matchesAny(route.basePath, basePath);
 
+    const roleId = Role[role ?? 0];
     const isAccessMatched =
       role && route.access
-        ? route.access.some((allowedRole) => role === allowedRole)
+        ? route.access.some((allowedRole) => roleId === allowedRole)
         : true;
 
     return isNameMatched && isBaseMatched && isAccessMatched;
