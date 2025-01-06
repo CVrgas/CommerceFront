@@ -104,10 +104,9 @@ function ProductDetail() {
   const addToCart = async (productId: number, quantity: number) => {
     try {
       const token = user.accessToken;
-
       const response = await axios.post(
         `https://localhost:44309/api/Cart/AddItemToCart?productId=${productId}&quantity=${quantity}`,
-        {}, // Si no hay datos en el cuerpo, este objeto vacío es opcional
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
