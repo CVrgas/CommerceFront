@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import userStore from "../App/Store/user.ts";
+import axios from "axios";
 
 type CartState = {
   TotalItems: number;
@@ -12,16 +14,29 @@ function Cart() {
     TotalItems: 0,
     TotalPrice: 0.0,
   });
+  const user = userStore((state) => state.user);
 
   useEffect(() => {
     setIsLoading(true);
 
     const loadProducts = () => {
-      setTimeout(() => {
-        setProducts([]);
-        setIsLoading(false);
-        setState({ TotalItems: 0, TotalPrice: 0.0 });
-      }, 400);
+      const getProducts = async () => {
+        const token = user.accessToken;
+        await axios
+          .get<Product[]>("https://localhost:44309/api/Cart/GetCartItems", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              setProducts(response.data);
+              setState({ TotalItems: 0, TotalPrice: 0.0 });
+            }
+          })
+          .finally(() => setIsLoading(false));
+      };
+      getProducts();
     };
 
     loadProducts();
@@ -40,7 +55,7 @@ function Cart() {
           )}
           {!isLoading &&
             products.length > 0 &&
-            products.map((product) => <div>{product.name} Product here</div>)}
+            products.map((product) => <ProductCard product={product} />)}
           {!isLoading && products.length <= 0 && <EmptyCartMessage />}
         </form>
       </div>
@@ -58,6 +73,34 @@ function Cart() {
             Checkout
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+function ProductCard({ product }: { product: Product }) {
+  return (
+    <div className="p-4 bg-white flex gap-4 shadow-md rounded-md">
+      {/* Product Image */}
+      <div className="w-32 h-32 flex-shrink-0 bg-gray-300 rounded-md overflow-hidden">
+        <img
+          src="https://via.placeholder.com/150"
+          alt="Product Image"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Product Details */}
+      <div className="flex flex-col flex-grow">
+        <h2 className="text-lg font-semibold text-gray-800">{product.name}</h2>
+        <p className="text-gray-600 text-sm mt-1">{product.description}</p>
+        <span className="text-gray-900 font-medium text-lg mt-2">
+          ${product.price}
+        </span>
+
+        {/* Add to Cart Button */}
+        {/*<button className="mt-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">*/}
+        {/*  Add to Cart*/}
+        {/*</button>*/}
       </div>
     </div>
   );
